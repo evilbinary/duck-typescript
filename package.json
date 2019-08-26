@@ -1,0 +1,16 @@
+{
+  "name": "duck-typescript",
+  "version": "1.0.0",
+  "description": "evilbinary.org",
+  "main": "ts-node duck.ts",
+  "scripts": {
+    "main": "ts-node -p main.ts",
+    "testall": "mocha -r ts-node/register tests/**/tests.ts"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@types/ffi": "^0.2.2",
+    "ffi": "^2.3.0"
+  }
+}

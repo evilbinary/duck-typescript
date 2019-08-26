@@ -1,0 +1,733 @@
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;Copyright 2016-2080 evilbinary.
+;;作者:evilbinary on 12/24/16.
+;;邮箱:rootdebug@163.com
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(library (net curl-ffi)
+  (export curl-strequal curl-strnequal curl-formadd
+   curl-formget curl-formfree curl-getenv curl-version
+   curl-easy-escape curl-escape curl-easy-unescape
+   curl-unescape curl-free curl-global-init
+   curl-global-init-mem curl-global-cleanup curl-slist-append
+   curl-slist-free-all curl-getdate curl-share-init
+   curl-share-setopt curl-share-cleanup curl-version-info
+   curl-easy-strerror curl-share-strerror curl-easy-pause
+   curl-easy-init curl-easy-setopt curl-easy-perform
+   curl-easy-cleanup curl-easy-getinfo curl-easy-duphandle
+   curl-easy-reset curl-easy-recv curl-easy-send
+   curl-multi-init curl-multi-add-handle
+   curl-multi-remove-handle curl-multi-fdset curl-multi-wait
+   curl-multi-perform curl-multi-cleanup curl-multi-info-read
+   curl-multi-strerror curl-multi-socket
+   curl-multi-socket-action curl-multi-socket-all
+   curl-multi-timeout curl-multi-setopt curl-multi-assign
+   curl-pushheader-bynum curl-pushheader-byname
+   CURLOPT_WRITEDATA CURLOPT_URL CURLOPT_PORT CURLOPT_PROXY
+   CURLOPT_USERPWD CURLOPT_PROXYUSERPWD CURLOPT_RANGE
+   CURLOPT_READDATA CURLOPT_ERRORBUFFER CURLOPT_WRITEFUNCTION
+   CURLOPT_READFUNCTION CURLOPT_TIMEOUT CURLOPT_INFILESIZE
+   CURLOPT_POSTFIELDS CURLOPT_REFERER CURLOPT_FTPPORT
+   CURLOPT_USERAGENT CURLOPT_LOW_SPEED_LIMIT
+   CURLOPT_LOW_SPEED_TIME CURLOPT_RESUME_FROM CURLOPT_COOKIE
+   CURLOPT_HTTPHEADER CURLOPT_HTTPPOST CURLOPT_SSLCERT
+   CURLOPT_KEYPASSWD CURLOPT_CRLF CURLOPT_QUOTE
+   CURLOPT_HEADERDATA CURLOPT_COOKIEFILE CURLOPT_SSLVERSION
+   CURLOPT_TIMECONDITION CURLOPT_TIMEVALUE
+   CURLOPT_CUSTOMREQUEST CURLOPT_STDERR CURLOPT_POSTQUOTE
+   CURLOPT_OBSOLETE40 CURLOPT_VERBOSE CURLOPT_HEADER
+   CURLOPT_NOPROGRESS CURLOPT_NOBODY CURLOPT_FAILONERROR
+   CURLOPT_UPLOAD CURLOPT_POST CURLOPT_DIRLISTONLY
+   CURLOPT_APPEND CURLOPT_NETRC CURLOPT_FOLLOWLOCATION
+   CURLOPT_TRANSFERTEXT CURLOPT_PUT CURLOPT_PROGRESSFUNCTION
+   CURLOPT_PROGRESSDATA CURLOPT_AUTOREFERER CURLOPT_PROXYPORT
+   CURLOPT_POSTFIELDSIZE CURLOPT_HTTPPROXYTUNNEL
+   CURLOPT_INTERFACE CURLOPT_KRBLEVEL CURLOPT_SSL_VERIFYPEER
+   CURLOPT_CAINFO CURLOPT_MAXREDIRS CURLOPT_FILETIME
+   CURLOPT_TELNETOPTIONS CURLOPT_MAXCONNECTS CURLOPT_OBSOLETE72
+   CURLOPT_FRESH_CONNECT CURLOPT_FORBID_REUSE
+   CURLOPT_RANDOM_FILE CURLOPT_EGDSOCKET CURLOPT_CONNECTTIMEOUT
+   CURLOPT_HEADERFUNCTION CURLOPT_HTTPGET
+   CURLOPT_SSL_VERIFYHOST CURLOPT_COOKIEJAR
+   CURLOPT_SSL_CIPHER_LIST CURLOPT_HTTP_VERSION
+   CURLOPT_FTP_USE_EPSV CURLOPT_SSLCERTTYPE CURLOPT_SSLKEY
+   CURLOPT_SSLKEYTYPE CURLOPT_SSLENGINE
+   CURLOPT_SSLENGINE_DEFAULT CURLOPT_DNS_USE_GLOBAL_CACHE
+   CURLOPT_DNS_CACHE_TIMEOUT CURLOPT_PREQUOTE
+   CURLOPT_DEBUGFUNCTION CURLOPT_DEBUGDATA
+   CURLOPT_COOKIESESSION CURLOPT_CAPATH CURLOPT_BUFFERSIZE
+   CURLOPT_NOSIGNAL CURLOPT_SHARE CURLOPT_PROXYTYPE
+   CURLOPT_ACCEPT_ENCODING CURLOPT_PRIVATE
+   CURLOPT_HTTP200ALIASES CURLOPT_UNRESTRICTED_AUTH
+   CURLOPT_FTP_USE_EPRT CURLOPT_HTTPAUTH
+   CURLOPT_SSL_CTX_FUNCTION CURLOPT_SSL_CTX_DATA
+   CURLOPT_FTP_CREATE_MISSING_DIRS CURLOPT_PROXYAUTH
+   CURLOPT_FTP_RESPONSE_TIMEOUT CURLOPT_IPRESOLVE
+   CURLOPT_MAXFILESIZE CURLOPT_INFILESIZE_LARGE
+   CURLOPT_RESUME_FROM_LARGE CURLOPT_MAXFILESIZE_LARGE
+   CURLOPT_NETRC_FILE CURLOPT_USE_SSL
+   CURLOPT_POSTFIELDSIZE_LARGE CURLOPT_TCP_NODELAY
+   CURLOPT_FTPSSLAUTH CURLOPT_IOCTLFUNCTION CURLOPT_IOCTLDATA
+   CURLOPT_FTP_ACCOUNT CURLOPT_COOKIELIST
+   CURLOPT_IGNORE_CONTENT_LENGTH CURLOPT_FTP_SKIP_PASV_IP
+   CURLOPT_FTP_FILEMETHOD CURLOPT_LOCALPORT
+   CURLOPT_LOCALPORTRANGE CURLOPT_CONNECT_ONLY
+   CURLOPT_CONV_FROM_NETWORK_FUNCTION
+   CURLOPT_CONV_TO_NETWORK_FUNCTION
+   CURLOPT_CONV_FROM_UTF8_FUNCTION CURLOPT_MAX_SEND_SPEED_LARGE
+   CURLOPT_MAX_RECV_SPEED_LARGE CURLOPT_FTP_ALTERNATIVE_TO_USER
+   CURLOPT_SOCKOPTFUNCTION CURLOPT_SOCKOPTDATA
+   CURLOPT_SSL_SESSIONID_CACHE CURLOPT_SSH_AUTH_TYPES
+   CURLOPT_SSH_PUBLIC_KEYFILE CURLOPT_SSH_PRIVATE_KEYFILE
+   CURLOPT_FTP_SSL_CCC CURLOPT_TIMEOUT_MS
+   CURLOPT_CONNECTTIMEOUT_MS CURLOPT_HTTP_TRANSFER_DECODING
+   CURLOPT_HTTP_CONTENT_DECODING CURLOPT_NEW_FILE_PERMS
+   CURLOPT_NEW_DIRECTORY_PERMS CURLOPT_POSTREDIR
+   CURLOPT_SSH_HOST_PUBLIC_KEY_MD5 CURLOPT_OPENSOCKETFUNCTION
+   CURLOPT_OPENSOCKETDATA CURLOPT_COPYPOSTFIELDS
+   CURLOPT_PROXY_TRANSFER_MODE CURLOPT_SEEKFUNCTION
+   CURLOPT_SEEKDATA CURLOPT_CRLFILE CURLOPT_ISSUERCERT
+   CURLOPT_ADDRESS_SCOPE CURLOPT_CERTINFO CURLOPT_USERNAME
+   CURLOPT_PASSWORD CURLOPT_PROXYUSERNAME CURLOPT_PROXYPASSWORD
+   CURLOPT_NOPROXY CURLOPT_TFTP_BLKSIZE
+   CURLOPT_SOCKS5_GSSAPI_SERVICE CURLOPT_SOCKS5_GSSAPI_NEC
+   CURLOPT_PROTOCOLS CURLOPT_REDIR_PROTOCOLS
+   CURLOPT_SSH_KNOWNHOSTS CURLOPT_SSH_KEYFUNCTION
+   CURLOPT_SSH_KEYDATA CURLOPT_MAIL_FROM CURLOPT_MAIL_RCPT
+   CURLOPT_FTP_USE_PRET CURLOPT_RTSP_REQUEST
+   CURLOPT_RTSP_SESSION_ID CURLOPT_RTSP_STREAM_URI
+   CURLOPT_RTSP_TRANSPORT CURLOPT_RTSP_CLIENT_CSEQ
+   CURLOPT_RTSP_SERVER_CSEQ CURLOPT_INTERLEAVEDATA
+   CURLOPT_INTERLEAVEFUNCTION CURLOPT_WILDCARDMATCH
+   CURLOPT_CHUNK_BGN_FUNCTION CURLOPT_CHUNK_END_FUNCTION
+   CURLOPT_FNMATCH_FUNCTION CURLOPT_CHUNK_DATA
+   CURLOPT_FNMATCH_DATA CURLOPT_RESOLVE
+   CURLOPT_TLSAUTH_USERNAME CURLOPT_TLSAUTH_PASSWORD
+   CURLOPT_TLSAUTH_TYPE CURLOPT_TRANSFER_ENCODING
+   CURLOPT_CLOSESOCKETFUNCTION CURLOPT_CLOSESOCKETDATA
+   CURLOPT_GSSAPI_DELEGATION CURLOPT_DNS_SERVERS
+   CURLOPT_ACCEPTTIMEOUT_MS CURLOPT_TCP_KEEPALIVE
+   CURLOPT_TCP_KEEPIDLE CURLOPT_TCP_KEEPINTVL
+   CURLOPT_SSL_OPTIONS CURLOPT_MAIL_AUTH CURLOPT_SASL_IR
+   CURLOPT_XFERINFOFUNCTION CURLOPT_XOAUTH2_BEARER
+   CURLOPT_DNS_INTERFACE CURLOPT_DNS_LOCAL_IP4
+   CURLOPT_DNS_LOCAL_IP6 CURLOPT_LOGIN_OPTIONS
+   CURLOPT_SSL_ENABLE_NPN CURLOPT_SSL_ENABLE_ALPN
+   CURLOPT_EXPECT_100_TIMEOUT_MS CURLOPT_PROXYHEADER
+   CURLOPT_HEADEROPT CURLOPT_PINNEDPUBLICKEY
+   CURLOPT_UNIX_SOCKET_PATH CURLOPT_SSL_VERIFYSTATUS
+   CURLOPT_SSL_FALSESTART CURLOPT_PATH_AS_IS
+   CURLOPT_PROXY_SERVICE_NAME CURLOPT_SERVICE_NAME
+   CURLOPT_PIPEWAIT CURLOPT_DEFAULT_PROTOCOL
+   CURLOPT_STREAM_WEIGHT CURLOPT_STREAM_DEPENDS
+   CURLOPT_STREAM_DEPENDS_E CURLOPT_TFTP_NO_OPTIONS
+   CURLOPT_CONNECT_TO CURLOPT_TCP_FASTOPEN
+   CURLOPT_KEEP_SENDING_ON_ERROR CURLOPT_PROXY_CAINFO
+   CURLOPT_PROXY_CAPATH CURLOPT_PROXY_SSL_VERIFYPEER
+   CURLOPT_PROXY_SSL_VERIFYHOST CURLOPT_PROXY_SSLVERSION
+   CURLOPT_PROXY_TLSAUTH_USERNAME
+   CURLOPT_PROXY_TLSAUTH_PASSWORD CURLOPT_PROXY_TLSAUTH_TYPE
+   CURLOPT_PROXY_SSLCERT CURLOPT_PROXY_SSLCERTTYPE
+   CURLOPT_PROXY_SSLKEY CURLOPT_PROXY_SSLKEYTYPE
+   CURLOPT_PROXY_KEYPASSWD CURLOPT_PROXY_SSL_CIPHER_LIST
+   CURLOPT_PROXY_CRLFILE CURLOPT_PROXY_SSL_OPTIONS
+   CURLOPT_PRE_PROXY CURLOPT_PROXY_PINNEDPUBLICKEY
+   CURLOPT_ABSTRACT_UNIX_SOCKET
+   CURLOPT_SUPPRESS_CONNECT_HEADERS CURLOPT_REQUEST_TARGET
+   CURLOPT_SOCKS5_AUTH CURL_GLOBAL_SSL CURL_GLOBAL_WIN32
+   CURL_GLOBAL_ALL CURL_GLOBAL_NOTHING CURL_GLOBAL_DEFAULT
+   CURL_GLOBAL_ACK_EINTR CURLINFO_NONE CURLINFO_EFFECTIVE_URL
+   CURLINFO_RESPONSE_CODE CURLINFO_TOTAL_TIME
+   CURLINFO_NAMELOOKUP_TIME CURLINFO_CONNECT_TIME
+   CURLINFO_PRETRANSFER_TIME CURLINFO_SIZE_UPLOAD
+   CURLINFO_SIZE_DOWNLOAD CURLINFO_SPEED_DOWNLOAD
+   CURLINFO_SPEED_UPLOAD CURLINFO_HEADER_SIZE
+   CURLINFO_REQUEST_SIZE CURLINFO_SSL_VERIFYRESULT
+   CURLINFO_FILETIME CURLINFO_CONTENT_LENGTH_DOWNLOAD
+   CURLINFO_CONTENT_LENGTH_UPLOAD CURLINFO_STARTTRANSFER_TIME
+   CURLINFO_CONTENT_TYPE CURLINFO_REDIRECT_TIME
+   CURLINFO_REDIRECT_COUNT CURLINFO_PRIVATE
+   CURLINFO_HTTP_CONNECTCODE CURLINFO_HTTPAUTH_AVAIL
+   CURLINFO_PROXYAUTH_AVAIL CURLINFO_OS_ERRNO
+   CURLINFO_NUM_CONNECTS CURLINFO_SSL_ENGINES
+   CURLINFO_COOKIELIST CURLINFO_LASTSOCKET
+   CURLINFO_FTP_ENTRY_PATH CURLINFO_REDIRECT_URL
+   CURLINFO_PRIMARY_IP CURLINFO_APPCONNECT_TIME
+   CURLINFO_CERTINFO CURLINFO_CONDITION_UNMET
+   CURLINFO_RTSP_SESSION_ID CURLINFO_RTSP_CLIENT_CSEQ
+   CURLINFO_RTSP_SERVER_CSEQ CURLINFO_RTSP_CSEQ_RECV
+   CURLINFO_PRIMARY_PORT CURLINFO_LOCAL_IP CURLINFO_LOCAL_PORT
+   CURLINFO_TLS_SESSION CURLINFO_ACTIVESOCKET
+   CURLINFO_TLS_SSL_PTR CURLINFO_HTTP_VERSION
+   CURLINFO_PROXY_SSL_VERIFYRESULT CURLINFO_PROTOCOL
+   CURLINFO_SCHEME)
+  (import (scheme) (cffi cffi))
+  (load-librarys "libcurl")
+  (define OBJECTPOINT 10000)
+  (define LONG 0)
+  (define STRINGPOINT 10000)
+  (define FUNCTIONPOINT 20000)
+  (define OFF_T 30000)
+  (define CURL_GLOBAL_SSL 1)
+  (define CURL_GLOBAL_WIN32 2)
+  (define CURL_GLOBAL_ALL
+    (+ CURL_GLOBAL_SSL CURL_GLOBAL_WIN32))
+  (define CURL_GLOBAL_NOTHING 0)
+  (define CURL_GLOBAL_DEFAULT CURL_GLOBAL_ALL)
+  (define CURL_GLOBAL_ACK_EINTR 2)
+  (define CURLINFO_STRING 1048576)
+  (define CURLINFO_LONG 2097152)
+  (define CURLINFO_DOUBLE 3145728)
+  (define CURLINFO_SLIST 4194304)
+  (define CURLINFO_SOCKET 5242880)
+  (define CURLINFO_MASK 1048575)
+  (define CURLINFO_TYPEMASK 15728640)
+  (define-syntax def-cinit
+    (lambda (x)
+      (define (make-prefix-id prefix kw)
+        (datum->syntax
+          kw
+          (string->symbol
+            (string-append
+              prefix
+              (symbol->string (syntax->datum kw))))))
+      (syntax-case x ()
+        [(_ name type offset)
+         (with-syntax ([nname (make-prefix-id "CURLOPT_" #'name)])
+           #'(define nname (+ type offset)))])))
+  (define-syntax def-cenum
+    (lambda (x)
+      (syntax-case x ()
+        [(_ name type offset) #'(define name (+ type offset))])))
+  (def-cenum CURLINFO_NONE 0 0)
+  (def-cenum CURLINFO_EFFECTIVE_URL CURLINFO_STRING 1)
+  (def-cenum CURLINFO_RESPONSE_CODE CURLINFO_LONG 2)
+  (def-cenum CURLINFO_TOTAL_TIME CURLINFO_DOUBLE 3)
+  (def-cenum CURLINFO_NAMELOOKUP_TIME CURLINFO_DOUBLE 4)
+  (def-cenum CURLINFO_CONNECT_TIME CURLINFO_DOUBLE 5)
+  (def-cenum CURLINFO_PRETRANSFER_TIME CURLINFO_DOUBLE 6)
+  (def-cenum CURLINFO_SIZE_UPLOAD CURLINFO_DOUBLE 7)
+  (def-cenum CURLINFO_SIZE_DOWNLOAD CURLINFO_DOUBLE 8)
+  (def-cenum CURLINFO_SPEED_DOWNLOAD CURLINFO_DOUBLE 9)
+  (def-cenum CURLINFO_SPEED_UPLOAD CURLINFO_DOUBLE 10)
+  (def-cenum CURLINFO_HEADER_SIZE CURLINFO_LONG 11)
+  (def-cenum CURLINFO_REQUEST_SIZE CURLINFO_LONG 12)
+  (def-cenum CURLINFO_SSL_VERIFYRESULT CURLINFO_LONG 13)
+  (def-cenum CURLINFO_FILETIME CURLINFO_LONG 14)
+  (def-cenum
+    CURLINFO_CONTENT_LENGTH_DOWNLOAD
+    CURLINFO_DOUBLE
+    15)
+  (def-cenum
+    CURLINFO_CONTENT_LENGTH_UPLOAD
+    CURLINFO_DOUBLE
+    16)
+  (def-cenum CURLINFO_STARTTRANSFER_TIME CURLINFO_DOUBLE 17)
+  (def-cenum CURLINFO_CONTENT_TYPE CURLINFO_STRING 18)
+  (def-cenum CURLINFO_REDIRECT_TIME CURLINFO_DOUBLE 19)
+  (def-cenum CURLINFO_REDIRECT_COUNT CURLINFO_LONG 20)
+  (def-cenum CURLINFO_PRIVATE CURLINFO_STRING 21)
+  (def-cenum CURLINFO_HTTP_CONNECTCODE CURLINFO_LONG 22)
+  (def-cenum CURLINFO_HTTPAUTH_AVAIL CURLINFO_LONG 23)
+  (def-cenum CURLINFO_PROXYAUTH_AVAIL CURLINFO_LONG 24)
+  (def-cenum CURLINFO_OS_ERRNO CURLINFO_LONG 25)
+  (def-cenum CURLINFO_NUM_CONNECTS CURLINFO_LONG 26)
+  (def-cenum CURLINFO_SSL_ENGINES CURLINFO_SLIST 27)
+  (def-cenum CURLINFO_COOKIELIST CURLINFO_SLIST 28)
+  (def-cenum CURLINFO_LASTSOCKET CURLINFO_LONG 29)
+  (def-cenum CURLINFO_FTP_ENTRY_PATH CURLINFO_STRING 30)
+  (def-cenum CURLINFO_REDIRECT_URL CURLINFO_STRING 31)
+  (def-cenum CURLINFO_PRIMARY_IP CURLINFO_STRING 32)
+  (def-cenum CURLINFO_APPCONNECT_TIME CURLINFO_DOUBLE 33)
+  (def-cenum CURLINFO_CERTINFO CURLINFO_SLIST 34)
+  (def-cenum CURLINFO_CONDITION_UNMET CURLINFO_LONG 35)
+  (def-cenum CURLINFO_RTSP_SESSION_ID CURLINFO_STRING 36)
+  (def-cenum CURLINFO_RTSP_CLIENT_CSEQ CURLINFO_LONG 37)
+  (def-cenum CURLINFO_RTSP_SERVER_CSEQ CURLINFO_LONG 38)
+  (def-cenum CURLINFO_RTSP_CSEQ_RECV CURLINFO_LONG 39)
+  (def-cenum CURLINFO_PRIMARY_PORT CURLINFO_LONG 40)
+  (def-cenum CURLINFO_LOCAL_IP CURLINFO_STRING 41)
+  (def-cenum CURLINFO_LOCAL_PORT CURLINFO_LONG 42)
+  (def-cenum CURLINFO_TLS_SESSION CURLINFO_SLIST 43)
+  (def-cenum CURLINFO_ACTIVESOCKET CURLINFO_SOCKET 44)
+  (def-cenum CURLINFO_TLS_SSL_PTR CURLINFO_SLIST 45)
+  (def-cenum CURLINFO_HTTP_VERSION CURLINFO_LONG 46)
+  (def-cenum CURLINFO_PROXY_SSL_VERIFYRESULT CURLINFO_LONG 47)
+  (def-cenum CURLINFO_PROTOCOL CURLINFO_LONG 48)
+  (def-cenum CURLINFO_SCHEME CURLINFO_STRING 49)
+  (def-cinit WRITEDATA OBJECTPOINT 1)
+  (def-cinit URL STRINGPOINT 2)
+  (def-cinit PORT LONG 3)
+  (def-cinit PROXY STRINGPOINT 4)
+  (def-cinit USERPWD STRINGPOINT 5)
+  (def-cinit PROXYUSERPWD STRINGPOINT 6)
+  (def-cinit RANGE STRINGPOINT 7)
+  (def-cinit READDATA OBJECTPOINT 9)
+  (def-cinit ERRORBUFFER OBJECTPOINT 10)
+  (def-cinit WRITEFUNCTION FUNCTIONPOINT 11)
+  (def-cinit READFUNCTION FUNCTIONPOINT 12)
+  (def-cinit TIMEOUT LONG 13)
+  (def-cinit INFILESIZE LONG 14)
+  (def-cinit POSTFIELDS OBJECTPOINT 15)
+  (def-cinit REFERER STRINGPOINT 16)
+  (def-cinit FTPPORT STRINGPOINT 17)
+  (def-cinit USERAGENT STRINGPOINT 18)
+  (def-cinit LOW_SPEED_LIMIT LONG 19)
+  (def-cinit LOW_SPEED_TIME LONG 20)
+  (def-cinit RESUME_FROM LONG 21)
+  (def-cinit COOKIE STRINGPOINT 22)
+  (def-cinit HTTPHEADER OBJECTPOINT 23)
+  (def-cinit HTTPPOST OBJECTPOINT 24)
+  (def-cinit SSLCERT STRINGPOINT 25)
+  (def-cinit KEYPASSWD STRINGPOINT 26)
+  (def-cinit CRLF LONG 27)
+  (def-cinit QUOTE OBJECTPOINT 28)
+  (def-cinit HEADERDATA OBJECTPOINT 29)
+  (def-cinit COOKIEFILE STRINGPOINT 31)
+  (def-cinit SSLVERSION LONG 32)
+  (def-cinit TIMECONDITION LONG 33)
+  (def-cinit TIMEVALUE LONG 34)
+  (def-cinit CUSTOMREQUEST STRINGPOINT 36)
+  (def-cinit STDERR OBJECTPOINT 37)
+  (def-cinit POSTQUOTE OBJECTPOINT 39)
+  (def-cinit OBSOLETE40 OBJECTPOINT 40)
+  (def-cinit VERBOSE LONG 41)
+  (def-cinit HEADER LONG 42)
+  (def-cinit NOPROGRESS LONG 43)
+  (def-cinit NOBODY LONG 44)
+  (def-cinit FAILONERROR LONG 45)
+  (def-cinit UPLOAD LONG 46)
+  (def-cinit POST LONG 47)
+  (def-cinit DIRLISTONLY LONG 48)
+  (def-cinit APPEND LONG 50)
+  (def-cinit NETRC LONG 51)
+  (def-cinit FOLLOWLOCATION LONG 52)
+  (def-cinit TRANSFERTEXT LONG 53)
+  (def-cinit PUT LONG 54)
+  (def-cinit PROGRESSFUNCTION FUNCTIONPOINT 56)
+  (def-cinit PROGRESSDATA OBJECTPOINT 57)
+  (def-cinit AUTOREFERER LONG 58)
+  (def-cinit PROXYPORT LONG 59)
+  (def-cinit POSTFIELDSIZE LONG 60)
+  (def-cinit HTTPPROXYTUNNEL LONG 61)
+  (def-cinit INTERFACE STRINGPOINT 62)
+  (def-cinit KRBLEVEL STRINGPOINT 63)
+  (def-cinit SSL_VERIFYPEER LONG 64)
+  (def-cinit CAINFO STRINGPOINT 65)
+  (def-cinit MAXREDIRS LONG 68)
+  (def-cinit FILETIME LONG 69)
+  (def-cinit TELNETOPTIONS OBJECTPOINT 70)
+  (def-cinit MAXCONNECTS LONG 71)
+  (def-cinit OBSOLETE72 LONG 72)
+  (def-cinit FRESH_CONNECT LONG 74)
+  (def-cinit FORBID_REUSE LONG 75)
+  (def-cinit RANDOM_FILE STRINGPOINT 76)
+  (def-cinit EGDSOCKET STRINGPOINT 77)
+  (def-cinit CONNECTTIMEOUT LONG 78)
+  (def-cinit HEADERFUNCTION FUNCTIONPOINT 79)
+  (def-cinit HTTPGET LONG 80)
+  (def-cinit SSL_VERIFYHOST LONG 81)
+  (def-cinit COOKIEJAR STRINGPOINT 82)
+  (def-cinit SSL_CIPHER_LIST STRINGPOINT 83)
+  (def-cinit HTTP_VERSION LONG 84)
+  (def-cinit FTP_USE_EPSV LONG 85)
+  (def-cinit SSLCERTTYPE STRINGPOINT 86)
+  (def-cinit SSLKEY STRINGPOINT 87)
+  (def-cinit SSLKEYTYPE STRINGPOINT 88)
+  (def-cinit SSLENGINE STRINGPOINT 89)
+  (def-cinit SSLENGINE_DEFAULT LONG 90)
+  (def-cinit DNS_USE_GLOBAL_CACHE LONG 91)
+  (def-cinit DNS_CACHE_TIMEOUT LONG 92)
+  (def-cinit PREQUOTE OBJECTPOINT 93)
+  (def-cinit DEBUGFUNCTION FUNCTIONPOINT 94)
+  (def-cinit DEBUGDATA OBJECTPOINT 95)
+  (def-cinit COOKIESESSION LONG 96)
+  (def-cinit CAPATH STRINGPOINT 97)
+  (def-cinit BUFFERSIZE LONG 98)
+  (def-cinit NOSIGNAL LONG 99)
+  (def-cinit SHARE OBJECTPOINT 100)
+  (def-cinit PROXYTYPE LONG 101)
+  (def-cinit ACCEPT_ENCODING STRINGPOINT 102)
+  (def-cinit PRIVATE OBJECTPOINT 103)
+  (def-cinit HTTP200ALIASES OBJECTPOINT 104)
+  (def-cinit UNRESTRICTED_AUTH LONG 105)
+  (def-cinit FTP_USE_EPRT LONG 106)
+  (def-cinit HTTPAUTH LONG 107)
+  (def-cinit SSL_CTX_FUNCTION FUNCTIONPOINT 108)
+  (def-cinit SSL_CTX_DATA OBJECTPOINT 109)
+  (def-cinit FTP_CREATE_MISSING_DIRS LONG 110)
+  (def-cinit PROXYAUTH LONG 111)
+  (def-cinit FTP_RESPONSE_TIMEOUT LONG 112)
+  (def-cinit IPRESOLVE LONG 113)
+  (def-cinit MAXFILESIZE LONG 114)
+  (def-cinit INFILESIZE_LARGE OFF_T 115)
+  (def-cinit RESUME_FROM_LARGE OFF_T 116)
+  (def-cinit MAXFILESIZE_LARGE OFF_T 117)
+  (def-cinit NETRC_FILE STRINGPOINT 118)
+  (def-cinit USE_SSL LONG 119)
+  (def-cinit POSTFIELDSIZE_LARGE OFF_T 120)
+  (def-cinit TCP_NODELAY LONG 121)
+  (def-cinit FTPSSLAUTH LONG 129)
+  (def-cinit IOCTLFUNCTION FUNCTIONPOINT 130)
+  (def-cinit IOCTLDATA OBJECTPOINT 131)
+  (def-cinit FTP_ACCOUNT STRINGPOINT 134)
+  (def-cinit COOKIELIST STRINGPOINT 135)
+  (def-cinit IGNORE_CONTENT_LENGTH LONG 136)
+  (def-cinit FTP_SKIP_PASV_IP LONG 137)
+  (def-cinit FTP_FILEMETHOD LONG 138)
+  (def-cinit LOCALPORT LONG 139)
+  (def-cinit LOCALPORTRANGE LONG 140)
+  (def-cinit CONNECT_ONLY LONG 141)
+  (def-cinit CONV_FROM_NETWORK_FUNCTION FUNCTIONPOINT 142)
+  (def-cinit CONV_TO_NETWORK_FUNCTION FUNCTIONPOINT 143)
+  (def-cinit CONV_FROM_UTF8_FUNCTION FUNCTIONPOINT 144)
+  (def-cinit MAX_SEND_SPEED_LARGE OFF_T 145)
+  (def-cinit MAX_RECV_SPEED_LARGE OFF_T 146)
+  (def-cinit FTP_ALTERNATIVE_TO_USER STRINGPOINT 147)
+  (def-cinit SOCKOPTFUNCTION FUNCTIONPOINT 148)
+  (def-cinit SOCKOPTDATA OBJECTPOINT 149)
+  (def-cinit SSL_SESSIONID_CACHE LONG 150)
+  (def-cinit SSH_AUTH_TYPES LONG 151)
+  (def-cinit SSH_PUBLIC_KEYFILE STRINGPOINT 152)
+  (def-cinit SSH_PRIVATE_KEYFILE STRINGPOINT 153)
+  (def-cinit FTP_SSL_CCC LONG 154)
+  (def-cinit TIMEOUT_MS LONG 155)
+  (def-cinit CONNECTTIMEOUT_MS LONG 156)
+  (def-cinit HTTP_TRANSFER_DECODING LONG 157)
+  (def-cinit HTTP_CONTENT_DECODING LONG 158)
+  (def-cinit NEW_FILE_PERMS LONG 159)
+  (def-cinit NEW_DIRECTORY_PERMS LONG 160)
+  (def-cinit POSTREDIR LONG 161)
+  (def-cinit SSH_HOST_PUBLIC_KEY_MD5 STRINGPOINT 162)
+  (def-cinit OPENSOCKETFUNCTION FUNCTIONPOINT 163)
+  (def-cinit OPENSOCKETDATA OBJECTPOINT 164)
+  (def-cinit COPYPOSTFIELDS OBJECTPOINT 165)
+  (def-cinit PROXY_TRANSFER_MODE LONG 166)
+  (def-cinit SEEKFUNCTION FUNCTIONPOINT 167)
+  (def-cinit SEEKDATA OBJECTPOINT 168)
+  (def-cinit CRLFILE STRINGPOINT 169)
+  (def-cinit ISSUERCERT STRINGPOINT 170)
+  (def-cinit ADDRESS_SCOPE LONG 171)
+  (def-cinit CERTINFO LONG 172)
+  (def-cinit USERNAME STRINGPOINT 173)
+  (def-cinit PASSWORD STRINGPOINT 174)
+  (def-cinit PROXYUSERNAME STRINGPOINT 175)
+  (def-cinit PROXYPASSWORD STRINGPOINT 176)
+  (def-cinit NOPROXY STRINGPOINT 177)
+  (def-cinit TFTP_BLKSIZE LONG 178)
+  (def-cinit SOCKS5_GSSAPI_SERVICE STRINGPOINT 179)
+  (def-cinit SOCKS5_GSSAPI_NEC LONG 180)
+  (def-cinit PROTOCOLS LONG 181)
+  (def-cinit REDIR_PROTOCOLS LONG 182)
+  (def-cinit SSH_KNOWNHOSTS STRINGPOINT 183)
+  (def-cinit SSH_KEYFUNCTION FUNCTIONPOINT 184)
+  (def-cinit SSH_KEYDATA OBJECTPOINT 185)
+  (def-cinit MAIL_FROM STRINGPOINT 186)
+  (def-cinit MAIL_RCPT OBJECTPOINT 187)
+  (def-cinit FTP_USE_PRET LONG 188)
+  (def-cinit RTSP_REQUEST LONG 189)
+  (def-cinit RTSP_SESSION_ID STRINGPOINT 190)
+  (def-cinit RTSP_STREAM_URI STRINGPOINT 191)
+  (def-cinit RTSP_TRANSPORT STRINGPOINT 192)
+  (def-cinit RTSP_CLIENT_CSEQ LONG 193)
+  (def-cinit RTSP_SERVER_CSEQ LONG 194)
+  (def-cinit INTERLEAVEDATA OBJECTPOINT 195)
+  (def-cinit INTERLEAVEFUNCTION FUNCTIONPOINT 196)
+  (def-cinit WILDCARDMATCH LONG 197)
+  (def-cinit CHUNK_BGN_FUNCTION FUNCTIONPOINT 198)
+  (def-cinit CHUNK_END_FUNCTION FUNCTIONPOINT 199)
+  (def-cinit FNMATCH_FUNCTION FUNCTIONPOINT 200)
+  (def-cinit CHUNK_DATA OBJECTPOINT 201)
+  (def-cinit FNMATCH_DATA OBJECTPOINT 202)
+  (def-cinit RESOLVE OBJECTPOINT 203)
+  (def-cinit TLSAUTH_USERNAME STRINGPOINT 204)
+  (def-cinit TLSAUTH_PASSWORD STRINGPOINT 205)
+  (def-cinit TLSAUTH_TYPE STRINGPOINT 206)
+  (def-cinit TRANSFER_ENCODING LONG 207)
+  (def-cinit CLOSESOCKETFUNCTION FUNCTIONPOINT 208)
+  (def-cinit CLOSESOCKETDATA OBJECTPOINT 209)
+  (def-cinit GSSAPI_DELEGATION LONG 210)
+  (def-cinit DNS_SERVERS STRINGPOINT 211)
+  (def-cinit ACCEPTTIMEOUT_MS LONG 212)
+  (def-cinit TCP_KEEPALIVE LONG 213)
+  (def-cinit TCP_KEEPIDLE LONG 214)
+  (def-cinit TCP_KEEPINTVL LONG 215)
+  (def-cinit SSL_OPTIONS LONG 216)
+  (def-cinit MAIL_AUTH STRINGPOINT 217)
+  (def-cinit SASL_IR LONG 218)
+  (def-cinit XFERINFOFUNCTION FUNCTIONPOINT 219)
+  (def-cinit XOAUTH2_BEARER STRINGPOINT 220)
+  (def-cinit DNS_INTERFACE STRINGPOINT 221)
+  (def-cinit DNS_LOCAL_IP4 STRINGPOINT 222)
+  (def-cinit DNS_LOCAL_IP6 STRINGPOINT 223)
+  (def-cinit LOGIN_OPTIONS STRINGPOINT 224)
+  (def-cinit SSL_ENABLE_NPN LONG 225)
+  (def-cinit SSL_ENABLE_ALPN LONG 226)
+  (def-cinit EXPECT_100_TIMEOUT_MS LONG 227)
+  (def-cinit PROXYHEADER OBJECTPOINT 228)
+  (def-cinit HEADEROPT LONG 229)
+  (def-cinit PINNEDPUBLICKEY STRINGPOINT 230)
+  (def-cinit UNIX_SOCKET_PATH STRINGPOINT 231)
+  (def-cinit SSL_VERIFYSTATUS LONG 232)
+  (def-cinit SSL_FALSESTART LONG 233)
+  (def-cinit PATH_AS_IS LONG 234)
+  (def-cinit PROXY_SERVICE_NAME STRINGPOINT 235)
+  (def-cinit SERVICE_NAME STRINGPOINT 236)
+  (def-cinit PIPEWAIT LONG 237)
+  (def-cinit DEFAULT_PROTOCOL STRINGPOINT 238)
+  (def-cinit STREAM_WEIGHT LONG 239)
+  (def-cinit STREAM_DEPENDS OBJECTPOINT 240)
+  (def-cinit STREAM_DEPENDS_E OBJECTPOINT 241)
+  (def-cinit TFTP_NO_OPTIONS LONG 242)
+  (def-cinit CONNECT_TO OBJECTPOINT 243)
+  (def-cinit TCP_FASTOPEN LONG 244)
+  (def-cinit KEEP_SENDING_ON_ERROR LONG 245)
+  (def-cinit PROXY_CAINFO STRINGPOINT 246)
+  (def-cinit PROXY_CAPATH STRINGPOINT 247)
+  (def-cinit PROXY_SSL_VERIFYPEER LONG 248)
+  (def-cinit PROXY_SSL_VERIFYHOST LONG 249)
+  (def-cinit PROXY_SSLVERSION LONG 250)
+  (def-cinit PROXY_TLSAUTH_USERNAME STRINGPOINT 251)
+  (def-cinit PROXY_TLSAUTH_PASSWORD STRINGPOINT 252)
+  (def-cinit PROXY_TLSAUTH_TYPE STRINGPOINT 253)
+  (def-cinit PROXY_SSLCERT STRINGPOINT 254)
+  (def-cinit PROXY_SSLCERTTYPE STRINGPOINT 255)
+  (def-cinit PROXY_SSLKEY STRINGPOINT 256)
+  (def-cinit PROXY_SSLKEYTYPE STRINGPOINT 257)
+  (def-cinit PROXY_KEYPASSWD STRINGPOINT 258)
+  (def-cinit PROXY_SSL_CIPHER_LIST STRINGPOINT 259)
+  (def-cinit PROXY_CRLFILE STRINGPOINT 260)
+  (def-cinit PROXY_SSL_OPTIONS LONG 261)
+  (def-cinit PRE_PROXY STRINGPOINT 262)
+  (def-cinit PROXY_PINNEDPUBLICKEY STRINGPOINT 263)
+  (def-cinit ABSTRACT_UNIX_SOCKET STRINGPOINT 264)
+  (def-cinit SUPPRESS_CONNECT_HEADERS LONG 265)
+  (def-cinit REQUEST_TARGET STRINGPOINT 266)
+  (def-cinit SOCKS5_AUTH LONG 267)
+  (def-function
+    curl-strequal
+    "curl_strequal"
+    (string string)
+    int)
+  (def-function
+    curl-strnequal
+    "curl_strnequal"
+    (string string int)
+    int)
+  (def-function curl-formadd "curl_formadd" () int)
+  (def-function
+    curl-formget
+    "curl_formget"
+    (void* void* curl_formget_callback)
+    int)
+  (def-function curl-formfree "curl_formfree" (void*) void)
+  (def-function curl-getenv "curl_getenv" (string) string)
+  (def-function curl-version "curl_version" (void) string)
+  (def-function
+    curl-easy-escape
+    "curl_easy_escape"
+    (void* string int)
+    string)
+  (def-function curl-escape "curl_escape" (string int) string)
+  (def-function
+    curl-easy-unescape
+    "curl_easy_unescape"
+    (void* string int void*)
+    string)
+  (def-function
+    curl-unescape
+    "curl_unescape"
+    (string int)
+    string)
+  (def-function curl-free "curl_free" (void*) void)
+  (def-function
+    curl-global-init
+    "curl_global_init"
+    (long)
+    int)
+  (def-function
+    curl-global-init-mem
+    "curl_global_init_mem"
+    (long void* void* void* void* void*)
+    int)
+  (def-function
+    curl-global-cleanup
+    "curl_global_cleanup"
+    (void)
+    void)
+  (def-function
+    curl-slist-append
+    "curl_slist_append"
+    (void* string)
+    void*)
+  (def-function
+    curl-slist-free-all
+    "curl_slist_free_all"
+    (void*)
+    void)
+  (def-function
+    curl-getdate
+    "curl_getdate"
+    (string void*)
+    time_t)
+  (def-function
+    curl-share-init
+    "curl_share_init"
+    (void)
+    void*)
+  (def-function
+    curl-share-setopt
+    "curl_share_setopt"
+    (void* int)
+    int)
+  (def-function
+    curl-share-cleanup
+    "curl_share_cleanup"
+    (void*)
+    int)
+  (def-function
+    curl-version-info
+    "curl_version_info"
+    (int)
+    void*)
+  (def-function
+    curl-easy-strerror
+    "curl_easy_strerror"
+    (int)
+    string)
+  (def-function
+    curl-share-strerror
+    "curl_share_strerror"
+    (int)
+    string)
+  (def-function
+    curl-easy-pause
+    "curl_easy_pause"
+    (void* int)
+    int)
+  (def-function curl-easy-init "curl_easy_init" (void) void*)
+  (def-function
+    curl-easy-setopt
+    "curl_easy_setopt"
+    (void* int void*)
+    int)
+  (def-function
+    curl-easy-perform
+    "curl_easy_perform"
+    (void*)
+    int)
+  (def-function
+    curl-easy-cleanup
+    "curl_easy_cleanup"
+    (void*)
+    void)
+  (def-function
+    curl-easy-getinfo
+    "curl_easy_getinfo"
+    (void* int)
+    int)
+  (def-function
+    curl-easy-duphandle
+    "curl_easy_duphandle"
+    (void*)
+    void*)
+  (def-function
+    curl-easy-reset
+    "curl_easy_reset"
+    (void*)
+    void)
+  (def-function
+    curl-easy-recv
+    "curl_easy_recv"
+    (void* void* int void*)
+    int)
+  (def-function
+    curl-easy-send
+    "curl_easy_send"
+    (void* void* int void*)
+    int)
+  (def-function
+    curl-multi-init
+    "curl_multi_init"
+    (void)
+    void*)
+  (def-function
+    curl-multi-add-handle
+    "curl_multi_add_handle"
+    (void* void*)
+    int)
+  (def-function
+    curl-multi-remove-handle
+    "curl_multi_remove_handle"
+    (void* void*)
+    int)
+  (def-function
+    curl-multi-fdset
+    "curl_multi_fdset"
+    (void* void* void* void* void*)
+    int)
+  (def-function
+    curl-multi-wait
+    "curl_multi_wait"
+    (void* void* int int void*)
+    int)
+  (def-function
+    curl-multi-perform
+    "curl_multi_perform"
+    (void* void*)
+    int)
+  (def-function
+    curl-multi-cleanup
+    "curl_multi_cleanup"
+    (void*)
+    int)
+  (def-function
+    curl-multi-info-read
+    "curl_multi_info_read"
+    (void* void*)
+    void*)
+  (def-function
+    curl-multi-strerror
+    "curl_multi_strerror"
+    (int)
+    string)
+  (def-function
+    curl-multi-socket
+    "curl_multi_socket"
+    (void* int void*)
+    int)
+  (def-function
+    curl-multi-socket-action
+    "curl_multi_socket_action"
+    (void* int int void*)
+    int)
+  (def-function
+    curl-multi-socket-all
+    "curl_multi_socket_all"
+    (void* void*)
+    int)
+  (def-function
+    curl-multi-timeout
+    "curl_multi_timeout"
+    (void* void*)
+    int)
+  (def-function
+    curl-multi-setopt
+    "curl_multi_setopt"
+    (void* CURLMoption)
+    int)
+  (def-function
+    curl-multi-assign
+    "curl_multi_assign"
+    (void* int void*)
+    int)
+  (def-function
+    curl-pushheader-bynum
+    "curl_pushheader_bynum"
+    (void* int)
+    string)
+  (def-function
+    curl-pushheader-byname
+    "curl_pushheader_byname"
+    (void* string)
+    string))
+
