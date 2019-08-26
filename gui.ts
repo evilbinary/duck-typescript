@@ -32,6 +32,37 @@ export class Gui extends Duck {
       `(button ${width.toFixed(2)} ${height.toFixed(2)} "${title}" )`
     );
   }
+  scroll(width, height) {
+    return this.eval(`(image ${width.toFixed(2)} ${height.toFixed(2)} )`);
+  }
+  view(width, height) {
+    return this.eval(`(view ${width.toFixed(2)} ${height.toFixed(2)} )`);
+  }
+  pop(width, height, title) {
+    return this.eval(
+      `(view ${width.toFixed(2)} ${height.toFixed(2)} "${title}" )`
+    );
+  }
+  progress(width, height, percent) {
+    return this.eval(
+      `(view ${width.toFixed(2)} ${height.toFixed(2)} ${percent.toFixed(2)} )`
+    );
+  }
+  edit(width, height, title) {
+    return this.eval(
+      `(edit ${width.toFixed(2)} ${height.toFixed(2)} "${title}" )`
+    );
+  }
+  tree(width, height, title) {
+    return this.eval(
+      `(tree ${width.toFixed(2)} ${height.toFixed(2)} "${title}" )`
+    );
+  }
+  video(width, height, src) {
+    return this.eval(
+      `(edit ${width.toFixed(2)} ${height.toFixed(2)} "${src}" )`
+    );
+  }
   image(width, height, src) {
     return this.eval(
       `(image ${width.toFixed(2)} ${height.toFixed(2)} "${src}" )`
