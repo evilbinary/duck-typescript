@@ -1,6 +1,7 @@
 import { Duck } from './duck';
 
 export class Gui extends Duck {
+  clickCount = 0;
   constructor() {
     super();
     const ret = this.eval(
@@ -81,5 +82,34 @@ export class Gui extends Duck {
       return this.call1('widget-add', parent);
     }
     return this.call2('widget-add', parent, child);
+  }
+  getAttr(widget, index) {
+    const ret = this.call2(
+      'widget-get-attr',
+      widget,
+      this.top_value(this.symbol(index))
+    );
+    return ret;
+  }
+  getAttrs(widget, name) {
+    return this.call2('widget-get-attrs', widget, this.string(name));
+  }
+  getText(widget) {
+    return this.getAttr(widget, '%text');
+  }
+  setClick(widget, clickFn) {
+    const exp = this.make_callback_exp(
+      `${this.get_string(this.getAttr(widget, '%text'))}.click.${this
+        .clickCount++}`,
+      (widget, parent, type, data) => {
+        clickFn(widget, parent, type, this.get_vector_array(data));
+      },
+      ['pointer', 'pointer', 'int', 'pointer'],
+      'void'
+    );
+    console.log('clickFn', clickFn, exp);
+
+    const call = this.eval(exp);
+    this.call3('widget-set-events', widget, this.symbol('click'), call);
   }
 }
