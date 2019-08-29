@@ -1,7 +1,7 @@
 import { Gui } from './gui';
 
 const gui = new Gui();
-gui.window(240, 340, 'calc');
+gui.window(232, 340, 'calc');
 let show = '';
 const main = gui.view(gui.matchParent, gui.matchParent);
 const result = gui.button(224.0, 60.0, '');
