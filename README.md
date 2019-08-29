@@ -5,6 +5,7 @@ A library for building cross-platform native desktop applications with TypeScrip
 
 # 安装
 `npm install`
+
 `npm install --save ffi`
 
 # 运行
