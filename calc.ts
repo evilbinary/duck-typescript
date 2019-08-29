@@ -50,8 +50,8 @@ const arr = [
 });
 gui.setClick(num0, (widget, parent, type, data) => {
   show += gui.getText(widget);
-  console.log('show=>',show);
-  gui.setText(result, show);
+//   console.log('show=>',show);
+//   gui.setText(result, show);
 });
 arr.forEach(e => {
   gui.setMargin(e, 4.0, 4.0, 4.0, 4.0);
