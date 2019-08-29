@@ -14,6 +14,7 @@ gui.addChild(dialog, button);
 
 const image = gui.image(80.0, 80.0, './gaga.jpg');
 gui.addChild(dialog, image);
+console.log('free layout', gui.freeLayout);
 
 // const edit=gui.edit(400.0,400.0,"edit");
 // gui.addChild(d,edit);

@@ -2,6 +2,12 @@ import { Duck } from './duck';
 
 export class Gui extends Duck {
   clickCount = 0;
+  freeLayout;
+  linearLayout;
+  frameLayout;
+  flowLayout;
+  popLayout;
+  matchParent;
   constructor() {
     super();
     const ret = this.eval(
@@ -10,10 +16,20 @@ export class Gui extends Duck {
         (gui window) 
         (gui widget) 
         (glfw glfw) 
+        (gui layout)
         (utils trace) ) 
         (stack-trace-exception)  
         `
     );
+    this.freeLayout = this.eval(`free-layout`);
+    this.linearLayout = this.eval(`linear-layout`);
+    this.frameLayout = this.eval(`frame-layout`);
+    this.flowLayout = this.eval(`flow-layout`);
+    this.popLayout = this.eval(`pop-layout`);
+    this.matchParent = this.top_value(this.symbol('%match-parent'));
+  }
+  setLayout(widget, layout) {
+    this.call2('widget-set-layout', widget, layout);
   }
   window(width, height, title) {
     const str = `(set! window (window-create ${width} ${height} "${title}")) window`;
@@ -107,8 +123,6 @@ export class Gui extends Duck {
       ['pointer', 'pointer', 'int', 'pointer'],
       'void'
     );
-    console.log('clickFn', clickFn, exp);
-
     const call = this.eval(exp);
     this.call3('widget-set-events', widget, this.symbol('click'), call);
   }
