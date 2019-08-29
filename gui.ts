@@ -8,6 +8,8 @@ export class Gui extends Duck {
   flowLayout;
   popLayout;
   matchParent;
+  wrapContent;
+  fillRest;
   constructor() {
     super();
     const ret = this.eval(
@@ -26,7 +28,9 @@ export class Gui extends Duck {
     this.frameLayout = this.eval(`frame-layout`);
     this.flowLayout = this.eval(`flow-layout`);
     this.popLayout = this.eval(`pop-layout`);
-    this.matchParent = this.top_value(this.symbol('%match-parent'));
+    this.matchParent = -1.0;
+    this.wrapContent = 0;
+    this.fillRest = -2.0;
   }
   setLayout(widget, layout) {
     this.call2('widget-set-layout', widget, layout);
@@ -99,6 +103,30 @@ export class Gui extends Duck {
     }
     return this.call2('widget-add', parent, child);
   }
+  setAttrs(widget, attr, value) {
+    const val = this.getVal(value);
+    this.call3('widget-set-attrs', widget, this.symbol(attr), val);
+  }
+  getVal(value) {
+    let val=null;
+    if (typeof value === 'number') {
+      val = this.fixnum(value);
+    } else if (typeof value === 'string') {
+      val = this.string(value);
+    } else {
+      val = this.symbol(value);
+    }
+    return val;
+  }
+  setAttr(widget, attr, value) {
+    const val = this.getVal(value);
+    this.call3(
+      'widget-set-attr',
+      widget,
+      this.top_value(this.symbol(attr)),
+      val
+    );
+  }
   getAttr(widget, index) {
     const ret = this.call2(
       'widget-get-attr',
@@ -108,10 +136,17 @@ export class Gui extends Duck {
     return ret;
   }
   getAttrs(widget, name) {
-    return this.call2('widget-get-attrs', widget, this.string(name));
+    return this.call2(
+      'widget-get-attrs',
+      widget,
+      this.top_value(this.symbol(name))
+    );
   }
   getText(widget) {
-    return this.getAttr(widget, '%text');
+    return this.get_string(this.getAttr(widget, '%text'));
+  }
+  setText(widget, text) {
+    this.setAttr(widget, '%text', text);
   }
   setClick(widget, clickFn) {
     const exp = this.make_callback_exp(
@@ -125,5 +160,15 @@ export class Gui extends Duck {
     );
     const call = this.eval(exp);
     this.call3('widget-set-events', widget, this.symbol('click'), call);
+  }
+  setMargin(widget, left, right, top, bottom) {
+    this.call5(
+      'widget-set-margin',
+      widget,
+      this.flonum(left),
+      this.flonum(right),
+      this.flonum(top),
+      this.flonum(bottom)
+    );
   }
 }

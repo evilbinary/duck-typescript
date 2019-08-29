@@ -2,7 +2,7 @@ import * as ffi from 'ffi';
 
 const duck = ffi.Library('./duck', {
   init: ['int', []],
-  fixnum: ['void*', ['int']],
+  fixnum: ['void*', ['long']],
   flonum: ['void*', ['float']],
 
   scm_eval: ['void*', ['string']],
@@ -22,6 +22,11 @@ const duck = ffi.Library('./duck', {
   Sstring_to_symbol: ['void*', ['string']],
   Slock_object: ['void', ['void*']],
   Sunlock_object: ['void', ['void*']],
+  scm_get_thread_context: ['void*', []],
+  S_initframe: ['void', ['void*', 'int']],
+  S_put_arg: ['void', ['void*', 'int', 'void*']],
+  Scall: ['void*', ['void*', 'int']],
+
   vector_length: ['int', ['void*']],
   vector_ref: ['void*', ['void*', 'int']],
   fxvector_length: ['int', ['void*']],
@@ -108,10 +113,10 @@ export class Duck {
   symbol(exp) {
     return duck.Sstring_to_symbol(exp);
   }
-  int(exp) {
+  fixnum(exp) {
     return duck.fixnum(exp);
   }
-  float(exp) {
+  flonum(exp) {
     return duck.flonum(exp);
   }
   print(exp) {
@@ -175,6 +180,20 @@ export class Duck {
   }
   call4(name, arg0, arg1, arg2, arg3) {
     return duck.scm_call4(name, arg0, arg1, arg2, arg3);
+  }
+  call5(name, arg0, arg1, arg2, arg3, arg4) {
+    const proc = duck.Stop_level_value(duck.Sstring_to_symbol(name));
+    return this.call5_proc(proc, arg0, arg1, arg2, arg3, arg4);
+  }
+  call5_proc(proc, arg0, arg1, arg2, arg3, arg4) {
+    const tc = duck.scm_get_thread_context();
+    duck.S_initframe(tc, 4);
+    duck.S_put_arg(tc, 1, arg0);
+    duck.S_put_arg(tc, 2, arg1);
+    duck.S_put_arg(tc, 3, arg2);
+    duck.S_put_arg(tc, 4, arg3);
+    duck.S_put_arg(tc, 5, arg4);
+    return duck.Scall(proc, 5);
   }
   call0_proc(proc) {
     return duck.scm_call0_proc(proc);
