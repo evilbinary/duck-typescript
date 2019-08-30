@@ -107,10 +107,10 @@ export class Gui extends Duck {
     return this.call2('widget-add', parent, child);
   }
   setAttrs(widget, attr, value) {
-    const val = this.getVal(value);
+    const val = this.makeVal(value);
     this.call3('widget-set-attrs', widget, this.symbol(attr), val);
   }
-  getVal(value) {
+  makeVal(value) {
     let val = null;
     if (typeof value === 'number') {
       val = this.fixnum(value);
@@ -122,7 +122,7 @@ export class Gui extends Duck {
     return val;
   }
   setAttr(widget, attr, value) {
-    const val = this.getVal(value);
+    const val = this.makeVal(value);
     this.call3(
       'widget-set-attr',
       widget,
@@ -130,23 +130,38 @@ export class Gui extends Duck {
       val
     );
   }
+  getVal(value) {
+    if(this.is_fixnum(value)){
+      return this.fixnum_value(value);
+    }else if(this.is_flonum(value)){
+      return this.flonum_value(value);
+    }else if(this.is_symbol(value)){
+      return value;
+    }else if( this.is_string(value)){
+      return this.get_string(value);
+    }else if(this.is_vector(value)){
+      return this.get_vector_array(value);
+    }
+    return value;
+  }
   getAttr(widget, index) {
     const ret = this.call2(
       'widget-get-attr',
       widget,
       this.top_value(this.symbol(index))
     );
-    return ret;
+    return this.getVal(ret);
   }
   getAttrs(widget, name) {
-    return this.call2(
+    const ret=this.call2(
       'widget-get-attrs',
       widget,
       this.top_value(this.symbol(name))
     );
+    return this.getVal(ret);
   }
   getText(widget) {
-    const text= this.get_string(this.getAttr(widget, '%text'));
+    const text = this.get_string(this.getAttr(widget, '%text'));
     return text;
   }
   setText(widget, text) {
@@ -154,8 +169,7 @@ export class Gui extends Duck {
   }
   setClick(widget, clickFn) {
     const exp = this.make_callback_exp(
-      `click.${this
-        .clickCount++}`,
+      `click.${this.clickCount++}`,
       (widget, parent, type, data) => {
         clickFn(widget, parent, type, this.get_vector_array(data));
       },
@@ -165,32 +179,28 @@ export class Gui extends Duck {
     const call = this.eval(exp);
     this.call3('widget-set-events', widget, this.symbol('click'), call);
   }
-  setDraw(widget,drawFn){
+  setDraw(widget, drawFn) {
     const exp = this.make_callback_exp(
-      `draw.${this
-        .clickCount++}`,
-      (widget, parent, ) => {
+      `draw.${this.clickCount++}`,
+      (widget, parent) => {
         drawFn(widget, parent);
       },
       ['pointer', 'pointer'],
       'void'
     );
     const call = this.eval(exp);
-    console.log(exp);
     this.call2('widget-set-draw', widget, call);
   }
-  addDraw(widget,drawFn){
+  addDraw(widget, drawFn) {
     const exp = this.make_callback_exp(
-      `draw.${this
-        .clickCount++}`,
-      (widget, parent, ) => {
+      `draw.${this.clickCount++}`,
+      (widget, parent) => {
         drawFn(widget, parent);
       },
       ['pointer', 'pointer'],
       'void'
     );
     const call = this.eval(exp);
-    console.log(exp);
     this.call2('widget-add-draw', widget, call);
   }
   setMargin(widget, left, right, top, bottom) {
@@ -203,10 +213,18 @@ export class Gui extends Duck {
       this.flonum(bottom)
     );
   }
-  drawLine(x1 ,y1 ,x2 ,y2 ,color){
-    this.eval(`(draw-line ${x1.toFixed(2)} ${y1.toFixed(2)} ${x2.toFixed(2)} ${y2.toFixed(2)} ${color})`)
+  drawLine(x1, y1, x2, y2, color) {
+    this.eval(
+      `(draw-line ${x1.toFixed(2)} ${y1.toFixed(2)} ${x2.toFixed(
+        2
+      )} ${y2.toFixed(2)} ${color})`
+    );
   }
-  drawRect(x1 ,y1 ,w ,h ,color){
-    this.eval(`(draw-rect ${x1.toFixed(2)} ${y1.toFixed(2)} ${w.toFixed(2)} ${h.toFixed(2)} ${color})`)
+  drawRect(x1, y1, w, h, color) {
+    this.eval(
+      `(draw-rect ${x1.toFixed(2)} ${y1.toFixed(2)} ${w.toFixed(2)} ${h.toFixed(
+        2
+      )} ${color})`
+    );
   }
 }

@@ -16,6 +16,7 @@ const duck = ffi.Library('./duck', {
   scm_nullp: ['int', ['void*']],
   scm_booleanp: ['int', ['void*']],
   scm_vectorp: ['int', ['void*']],
+  scm_stringp:['int',['void*']],
 
   Stop_level_value: ['void*', ['void*']],
   Sforeign_symbol: ['void', ['string', 'void*']],
@@ -153,6 +154,9 @@ export class Duck {
   }
   is_fixnum(exp) {
     return duck.scm_fixnump(exp);
+  }
+  is_string(exp){
+    return duck.scm_stringp(exp);
   }
   flonum_value(exp) {
     return duck.flonum_value(exp);

@@ -152,7 +152,7 @@ SCM_API iptr scm_symbolp(ptr x);
 SCM_API iptr scm_procedurep(ptr x);
 SCM_API iptr scm_flonump(ptr x);
 SCM_API iptr scm_vectorp(ptr x);
-
+SCM_API iptr scm_stringp(ptr x);
 
 SCM_API ptr scm_flonum(double x);
 SCM_API double scm_flonum_value(ptr x);

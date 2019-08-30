@@ -18,8 +18,9 @@ const image = gui.image(80.0, 80.0, './gaga.jpg');
 gui.addChild(dialog, image);
 
 gui.addDraw(dialog,(widget,parent)=>{
-  console.log('draw');
-  gui.drawRect(100,100,100,100,0xffff0000);
+  const x=gui.getAttr(widget,'%gx');
+  const y=gui.getAttr(widget,'%gy');
+  gui.drawRect(x+40.0,y+90.0,10,10,0xffff0000);
 })
 
 // const edit=gui.edit(400.0,400.0,"edit");
