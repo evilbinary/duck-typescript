@@ -4,25 +4,25 @@ const gui = new Gui();
 gui.window(232, 340, 'calc');
 let show = '';
 const main = gui.view(gui.matchParent, gui.matchParent);
-const result = gui.button(224.0, 60.0, '');
-const cls = gui.button(108.0, 50.0, 'CLS');
-const percent = gui.button(50.0, 50.0, ' % ');
-const div = gui.button(50.0, 50.0, '/');
-const num7 = gui.button(50.0, 50.0, '7');
-const num8 = gui.button(50.0, 50.0, '8');
-const num9 = gui.button(50.0, 50.0, '9');
-const num6 = gui.button(50.0, 50.0, '6');
-const num5 = gui.button(50.0, 50.0, '5');
-const num4 = gui.button(50.0, 50.0, '4');
-const num3 = gui.button(50.0, 50.0, '3');
-const num2 = gui.button(50.0, 50.0, '2');
-const num1 = gui.button(50.0, 50.0, '1');
-const num0 = gui.button(108.0, 50.0, '0');
-const mul = gui.button(50.0, 50.0, '*');
-const sub = gui.button(50.0, 50.0, '-');
-const add = gui.button(50.0, 50.0, '+');
-const ret = gui.button(50.0, 50.0, '=');
-const dot = gui.button(50.0, 50.0, '.');
+const result = gui.button(224, 60, '');
+const cls = gui.button(108, 50, 'CLS');
+const percent = gui.button(50, 50, ' % ');
+const div = gui.button(50, 50, '/');
+const num7 = gui.button(50, 50, '7');
+const num8 = gui.button(50, 50, '8');
+const num9 = gui.button(50, 50, '9');
+const num6 = gui.button(50, 50, '6');
+const num5 = gui.button(50, 50, '5');
+const num4 = gui.button(50, 50, '4');
+const num3 = gui.button(50, 50, '3');
+const num2 = gui.button(50, 50, '2');
+const num1 = gui.button(50, 50, '1');
+const num0 = gui.button(108, 50, '0');
+const mul = gui.button(50, 50, '*');
+const sub = gui.button(50, 50, '-');
+const add = gui.button(50, 50, '+');
+const ret = gui.button(50, 50, '=');
+const dot = gui.button(50, 50, '.');
 
 const arr = [
   result,
@@ -55,7 +55,7 @@ const fun = (widget, parent, type, data) => {
 };
 arr.forEach(e => {
   gui.setClick(e, fun);
-  gui.setMargin(e, 4.0, 4.0, 4.0, 4.0);
+  gui.setMargin(e, 4, 4, 4, 4);
   gui.setAttrs(e, 'font-size', 24);
   gui.addChild(main, e);
 });
