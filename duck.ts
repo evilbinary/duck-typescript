@@ -66,6 +66,8 @@ initEnv();
 
 export class Duck {
   env = '';
+  locked = [];
+  startLock = false;
   constructor() {
     const meval = `(define $meval   
         (lambda (str)
@@ -96,10 +98,25 @@ export class Duck {
   top_value(exp) {
     return duck.Stop_level_value(exp);
   }
+  prepare() {
+    this.startLock = true;
+    require('events').EventEmitter.defaultMaxListeners = 0;
+  }
   eval(string) {
     const str = this.string(string);
     const ret = this.call1('$meval', str);
+    if (this.startLock) {
+      this.lock(ret);
+      this.locked.push(ret);
+    }
     return ret;
+  }
+  end() {
+    this.locked.forEach(e => {
+      this.unlock(e);
+    });
+    this.locked = [];
+    this.startLock = false;
   }
   my_eval(exp) {
     return duck.scm_eval(exp);

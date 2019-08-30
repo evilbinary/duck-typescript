@@ -31,6 +31,7 @@ export class Gui extends Duck {
     this.matchParent = -1.0;
     this.wrapContent = 0;
     this.fillRest = -2.0;
+    this.prepare();
   }
   setLayout(widget, layout) {
     this.call2('widget-set-layout', widget, layout);
@@ -41,6 +42,7 @@ export class Gui extends Duck {
   }
   loop() {
     this.eval(' (window-loop window)');
+    this.end();
   }
   text(width, height, title) {
     return this.eval(
@@ -108,7 +110,7 @@ export class Gui extends Duck {
     this.call3('widget-set-attrs', widget, this.symbol(attr), val);
   }
   getVal(value) {
-    let val=null;
+    let val = null;
     if (typeof value === 'number') {
       val = this.fixnum(value);
     } else if (typeof value === 'string') {

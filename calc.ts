@@ -48,12 +48,13 @@ const arr = [
 [sub, mul, add, ret, div].forEach(e => {
   gui.setAttrs(e, 'background', 0xfff79231);
 });
-gui.setClick(num0, (widget, parent, type, data) => {
+
+const fun = (widget, parent, type, data) => {
   show += gui.getText(widget);
-//   console.log('show=>',show);
-//   gui.setText(result, show);
-});
+  gui.setText(result, show);
+};
 arr.forEach(e => {
+  gui.setClick(e, fun);
   gui.setMargin(e, 4.0, 4.0, 4.0, 4.0);
   gui.setAttrs(e, 'font-size', 24);
   gui.addChild(main, e);

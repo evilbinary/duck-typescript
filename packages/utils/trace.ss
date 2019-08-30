@@ -30,7 +30,9 @@
                 (p (t 'link)))))))
     (exit))
   (define (stack-trace-exception)
-    (base-exception-handler print-stack-trace))
+    ; (abort-handler print-stack-trace)
+    (base-exception-handler print-stack-trace)
+    )
   (define (stack-trace obj)
     (call/cc
       (lambda (k)
