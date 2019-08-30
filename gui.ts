@@ -19,6 +19,7 @@ export class Gui extends Duck {
         (gui widget) 
         (glfw glfw) 
         (gui layout)
+        (gui draw)
         (utils trace) ) 
         (stack-trace-exception)  
         `
@@ -145,14 +146,15 @@ export class Gui extends Duck {
     );
   }
   getText(widget) {
-    return this.get_string(this.getAttr(widget, '%text'));
+    const text= this.get_string(this.getAttr(widget, '%text'));
+    return text;
   }
   setText(widget, text) {
     this.setAttr(widget, '%text', text);
   }
   setClick(widget, clickFn) {
     const exp = this.make_callback_exp(
-      `${this.get_string(this.getAttr(widget, '%text'))}.click.${this
+      `click.${this
         .clickCount++}`,
       (widget, parent, type, data) => {
         clickFn(widget, parent, type, this.get_vector_array(data));
@@ -163,6 +165,34 @@ export class Gui extends Duck {
     const call = this.eval(exp);
     this.call3('widget-set-events', widget, this.symbol('click'), call);
   }
+  setDraw(widget,drawFn){
+    const exp = this.make_callback_exp(
+      `draw.${this
+        .clickCount++}`,
+      (widget, parent, ) => {
+        drawFn(widget, parent);
+      },
+      ['pointer', 'pointer'],
+      'void'
+    );
+    const call = this.eval(exp);
+    console.log(exp);
+    this.call2('widget-set-draw', widget, call);
+  }
+  addDraw(widget,drawFn){
+    const exp = this.make_callback_exp(
+      `draw.${this
+        .clickCount++}`,
+      (widget, parent, ) => {
+        drawFn(widget, parent);
+      },
+      ['pointer', 'pointer'],
+      'void'
+    );
+    const call = this.eval(exp);
+    console.log(exp);
+    this.call2('widget-add-draw', widget, call);
+  }
   setMargin(widget, left, right, top, bottom) {
     this.call5(
       'widget-set-margin',
@@ -172,5 +202,11 @@ export class Gui extends Duck {
       this.flonum(top),
       this.flonum(bottom)
     );
+  }
+  drawLine(x1 ,y1 ,x2 ,y2 ,color){
+    this.eval(`(draw-line ${x1.toFixed(2)} ${y1.toFixed(2)} ${x2.toFixed(2)} ${y2.toFixed(2)} ${color})`)
+  }
+  drawRect(x1 ,y1 ,w ,h ,color){
+    this.eval(`(draw-rect ${x1.toFixed(2)} ${y1.toFixed(2)} ${w.toFixed(2)} ${h.toFixed(2)} ${color})`)
   }
 }

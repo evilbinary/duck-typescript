@@ -1,13 +1,20 @@
 {
   "name": "duck-typescript",
   "version": "1.0.0",
-  "description": "evilbinary.org",
+  "description": "duck typescript evilbinary.org",
   "main": "ts-node duck.ts",
   "scripts": {
+    "install": "npm -v",
+    "build": "node-gyp -j 8 configure build",
     "main": "ts-node -p main.ts",
     "testall": "mocha -r ts-node/register tests/**/tests.ts"
   },
-  "author": "",
+  "keywords": [
+    "duck-typescript",
+    "duck",
+    "typescript"
+  ],
+  "author": "evilbinary",
   "license": "ISC",
   "dependencies": {
     "@types/ffi": "^0.2.2",

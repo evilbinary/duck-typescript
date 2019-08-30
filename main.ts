@@ -3,7 +3,8 @@ import { Gui } from './gui';
 
 const gui = new Gui();
 gui.window(400, 300, 'hello gui');
-const dialog = gui.dialog(10.0, 10.0, 200.0, 160.0, 'hello 测试');
+const dialog = gui.dialog(10.0, 10.0, 200.0, 160.0, 'hello测试');
+
 const text = gui.text(200.0, 300.0, 'test');
 const button = gui.button(80.0, 30.0, 'button');
 gui.setAttrs(button, 'background', 0xffff0000);
@@ -15,6 +16,11 @@ gui.addChild(dialog, button);
 
 const image = gui.image(80.0, 80.0, './gaga.jpg');
 gui.addChild(dialog, image);
+
+gui.addDraw(dialog,(widget,parent)=>{
+  console.log('draw');
+  gui.drawRect(100,100,100,100,0xffff0000);
+})
 
 // const edit=gui.edit(400.0,400.0,"edit");
 // gui.addChild(dialog,edit);

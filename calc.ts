@@ -4,7 +4,7 @@ const gui = new Gui();
 gui.window(232, 340, 'calc');
 let show = '';
 const main = gui.view(gui.matchParent, gui.matchParent);
-const result = gui.button(224.0, 60.0, '');
+const result = gui.button(224.0, 60.0, '              ');
 const cls = gui.button(108.0, 50.0, 'CLS');
 const percent = gui.button(50.0, 50.0, ' % ');
 const div = gui.button(50.0, 50.0, '/');

@@ -1,6 +1,7 @@
 {
-    // "compilerOptions": {
+    "compilerOptions": {
     //     "target": "ES6",
     //     "experimentalDecorators": true
-    // }
+    "charset": "utf8"
+    }
 }
