@@ -9,6 +9,7 @@ export class Gui extends Duck {
   popLayout;
   matchParent;
   wrapContent;
+  matchRest;
   fillRest;
   constructor() {
     super();
@@ -115,7 +116,7 @@ export class Gui extends Duck {
     if (typeof value === 'number') {
       val = this.fixnum(value);
     } else if (typeof value === 'string') {
-      val = this.string(value);
+      val = this.symbol(value);
     } else {
       val = this.symbol(value);
     }
@@ -136,7 +137,7 @@ export class Gui extends Duck {
     }else if(this.is_flonum(value)){
       return this.flonum_value(value);
     }else if(this.is_symbol(value)){
-      return value;
+      return this.get_string(value);
     }else if( this.is_string(value)){
       return this.get_string(value);
     }else if(this.is_vector(value)){
