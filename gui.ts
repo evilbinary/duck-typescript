@@ -1,6 +1,6 @@
 import { Duck } from './duck';
+let fnCount = 0;
 export class Gui extends Duck {
-  clickCount = 0;
   freeLayout;
   linearLayout;
   frameLayout;
@@ -20,6 +20,7 @@ export class Gui extends Duck {
         (glfw glfw) 
         (gui layout)
         (gui draw)
+        (gui stb)
         (utils trace) ) 
         (stack-trace-exception)  
         `
@@ -42,7 +43,7 @@ export class Gui extends Duck {
     return this.eval(str);
   }
   loop() {
-    this.eval(' (window-loop window)');
+    this.eval('(window-loop window)');
     this.end();
   }
   text(width, height, title) {
@@ -176,7 +177,7 @@ export class Gui extends Duck {
   }
   setClick(widget, clickFn) {
     const exp = this.make_callback_exp(
-      `click.${this.clickCount++}`,
+      `click.${fnCount++}`,
       (widget, parent, type, data) => {
         clickFn(widget, parent, type, this.get_vector_array(data));
       },
@@ -188,7 +189,7 @@ export class Gui extends Duck {
   }
   setDraw(widget, drawFn) {
     const exp = this.make_callback_exp(
-      `draw.${this.clickCount++}`,
+      `draw.${fnCount++}`,
       (widget, parent) => {
         drawFn(widget, parent);
       },
@@ -200,7 +201,7 @@ export class Gui extends Duck {
   }
   addDraw(widget, drawFn) {
     const exp = this.make_callback_exp(
-      `draw.${this.clickCount++}`,
+      `draw.${fnCount++}`,
       (widget, parent) => {
         drawFn(widget, parent);
       },
@@ -220,6 +221,14 @@ export class Gui extends Duck {
       this.flonum(bottom)
     );
   }
+  isSetStatus(widget, status) {
+    const ret = this.call2(
+      'widget-status-is-set',
+      widget,
+      this.top_value(this.symbol(status))
+    );
+    return this.fixnum_value(ret);
+  }
   drawLine(x1, y1, x2, y2, color) {
     this.eval(
       `(draw-line ${x1.toFixed(2)} ${y1.toFixed(2)} ${x2.toFixed(
@@ -233,6 +242,17 @@ export class Gui extends Duck {
         2
       )} ${color})`
     );
+  }
+  drawImage(x, y, w, h, src) {
+    this.eval(
+      `(draw-image ${x.toFixed(2)} ${y.toFixed(2)} ${w.toFixed(2)} ${h.toFixed(
+        2
+      )} ${src})`
+    );
+  }
+  loadImage(src) {
+    const id = this.eval(`(load-texture "${src}")`);
+    return this.fixnum_value(id);
   }
 }
 
@@ -271,6 +291,9 @@ export class Widget extends Gui {
   setText(text) {
     super.setText(this.widget, text);
   }
+  isSetStatus(status) {
+    return super.isSetStatus(this.widget, status);
+  }
 }
 
 export class View extends Widget {
@@ -302,8 +325,34 @@ export class Button extends Widget {
 }
 
 export class SelectedButton extends Widget {
-  constructor(w: number, h: number, title: string, icon: string, size: number) {
+  icons = [];
+  constructor(
+    w: number,
+    h: number,
+    title: string,
+    iconPath: string | Array<string>,
+    size: number,
+    iconLeft: number = 0,
+    iconTop: number = 0
+  ) {
     super();
+    if (typeof iconPath === 'string') {
+      this.icons[0] = this.loadImage(iconPath);
+      this.icons[1] = this.icons[0];
+    } else {
+      iconPath.forEach((e, i) => {
+        this.icons[i] = this.loadImage(e);
+      });
+    }
     this.widget = this.button(w, h, title);
+    this.addDraw((widget, parent) => {
+      const x = this.getAttr('%gx');
+      const y = this.getAttr('%gy');
+      if (this.isSetStatus('%status-hover') === 1) {
+        this.drawImage(iconLeft + x, y + iconTop, size, size, this.icons[1]);
+      } else {
+        this.drawImage(iconLeft + x, y + iconTop, size, size, this.icons[0]);
+      }
+    });
   }
 }
