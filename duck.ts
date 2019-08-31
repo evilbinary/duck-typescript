@@ -16,7 +16,7 @@ const duck = ffi.Library('./duck', {
   scm_nullp: ['int', ['void*']],
   scm_booleanp: ['int', ['void*']],
   scm_vectorp: ['int', ['void*']],
-  scm_stringp:['int',['void*']],
+  scm_stringp: ['int', ['void*']],
 
   Stop_level_value: ['void*', ['void*']],
   Sforeign_symbol: ['void', ['string', 'void*']],
@@ -62,6 +62,27 @@ function initEnv() {
   process.env.CHEZ_IMPLEMENTATION_PATH = '.';
   process.env.SCHEMEHEAPDIRS = '.';
   duck.init();
+  const meval = `(define $meval   
+    (lambda (str)
+            (try 
+                (let ((ret '()))
+                    (with-input-from-string str
+                            (lambda ()
+                            (let loop ()
+                                (let ((c ($my-read)))
+                                (cond
+                                    ((eof-object? c) c )
+                                    ((eq? c (void)) c) 
+                                        (else
+                                            (set! ret (eval c))
+                                            (loop)))
+                                ))))
+                        ret)
+            (catch (lambda (x) 
+                (display-condition x) 
+            )))
+         ))`;
+  duck.scm_call1('eval', duck.scm_my_read_string(meval));
 }
 initEnv();
 
@@ -69,29 +90,7 @@ export class Duck {
   env = '';
   locked = [];
   startLock = false;
-  constructor() {
-    const meval = `(define $meval   
-        (lambda (str)
-                (try 
-                    (let ((ret '()))
-                        (with-input-from-string str
-                                (lambda ()
-                                (let loop ()
-                                    (let ((c ($my-read)))
-                                    (cond
-                                        ((eof-object? c) c )
-                                        ((eq? c (void)) c) 
-                                            (else
-                                                (set! ret (eval c))
-                                                (loop)))
-                                    ))))
-                            ret)
-                (catch (lambda (x) 
-                    (display-condition x) 
-                )))
-             ))`;
-    this.call1('eval', this.read_from_string(meval));
-  }
+  constructor() {}
   read_from_string(exp) {
     return duck.scm_my_read_string(exp);
   }
@@ -155,7 +154,7 @@ export class Duck {
   is_fixnum(exp) {
     return duck.scm_fixnump(exp);
   }
-  is_string(exp){
+  is_string(exp) {
     return duck.scm_stringp(exp);
   }
   flonum_value(exp) {

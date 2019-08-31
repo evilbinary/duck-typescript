@@ -1,5 +1,4 @@
 import { Duck } from './duck';
-
 export class Gui extends Duck {
   clickCount = 0;
   freeLayout;
@@ -102,8 +101,15 @@ export class Gui extends Duck {
     return ret;
   }
   addChild(parent, child = null) {
+    if (parent instanceof Widget) {
+      parent = parent.widget;
+    }
     if (child == null) {
       return this.call1('widget-add', parent);
+    } else {
+      if (child instanceof Widget) {
+        child = child.widget;
+      }
     }
     return this.call2('widget-add', parent, child);
   }
@@ -132,15 +138,15 @@ export class Gui extends Duck {
     );
   }
   getVal(value) {
-    if(this.is_fixnum(value)){
+    if (this.is_fixnum(value)) {
       return this.fixnum_value(value);
-    }else if(this.is_flonum(value)){
+    } else if (this.is_flonum(value)) {
       return this.flonum_value(value);
-    }else if(this.is_symbol(value)){
+    } else if (this.is_symbol(value)) {
       return this.get_string(value);
-    }else if( this.is_string(value)){
+    } else if (this.is_string(value)) {
       return this.get_string(value);
-    }else if(this.is_vector(value)){
+    } else if (this.is_vector(value)) {
       return this.get_vector_array(value);
     }
     return value;
@@ -154,7 +160,7 @@ export class Gui extends Duck {
     return this.getVal(ret);
   }
   getAttrs(widget, name) {
-    const ret=this.call2(
+    const ret = this.call2(
       'widget-get-attrs',
       widget,
       this.top_value(this.symbol(name))
@@ -227,5 +233,77 @@ export class Gui extends Duck {
         2
       )} ${color})`
     );
+  }
+}
+
+export class Widget extends Gui {
+  widget;
+  constructor() {
+    super();
+  }
+  setLayout(layout) {
+    super.setLayout(this.widget, layout);
+  }
+  addChild(child) {
+    super.addChild(this.widget, child.widget);
+  }
+  setAttr(attr, value) {
+    super.setAttr(this.widget, attr, value);
+  }
+  setAttrs(attr, value) {
+    super.setAttrs(this.widget, attr, value);
+  }
+  setMargin(left, right, top, bottom) {
+    super.setMargin(this.widget, left, right, top, bottom);
+  }
+  addDraw(drawFn) {
+    super.addDraw(this.widget, drawFn);
+  }
+  getAttr(attr) {
+    return super.getAttr(this.widget, attr);
+  }
+  getAttrs(attr) {
+    return super.getAttrs(this.widget, attr);
+  }
+  getText() {
+    return super.getText(this.widget);
+  }
+  setText(text) {
+    super.setText(this.widget, text);
+  }
+}
+
+export class View extends Widget {
+  constructor(w: number, h: number) {
+    super();
+    this.widget = this.view(w, h);
+  }
+}
+
+export class Image extends Widget {
+  constructor(w: number, h: number, src: string) {
+    super();
+    this.widget = this.image(w, h, src);
+  }
+}
+
+export class Text extends Widget {
+  constructor(w: number, h: number, title: string) {
+    super();
+    this.widget = this.text(w, h, title);
+  }
+}
+
+export class Button extends Widget {
+  constructor(w: number, h: number, title) {
+    super();
+    this.widget = this.button(w, h, title);
+  }
+}
+
+export class SelectedButton extends Widget {
+  constructor(w: number, h: number, title: string, icon: string, size: number) {
+    super();
+    this.widget = this.button(w, h, title);
   }
 }
