@@ -4,6 +4,8 @@ A library for building cross-platform native desktop applications with TypeScrip
 一个用typescript写的gui
 
 # 安装
+`apt-get install ts-node npm`
+
 `npm install`
 
 `npm install --save ffi`
