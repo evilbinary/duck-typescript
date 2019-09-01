@@ -1,5 +1,5 @@
 // duck gui
-import { Gui } from './gui';
+import { Gui } from '@duck/gui';
 
 const gui = new Gui();
 gui.window(400, 300, 'hello gui');

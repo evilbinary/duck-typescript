@@ -6,7 +6,8 @@
   "scripts": {
     "install": "npm -v",
     "build": "node-gyp -j 8 configure build",
-    "main": "ts-node -p main.ts",
+    "main": "ts-node -r tsconfig-paths/register -p main.ts",
+    "start": "ts-node -r tsconfig-paths/register",
     "testall": "mocha -r ts-node/register tests/**/tests.ts"
   },
   "keywords": [
@@ -19,5 +20,8 @@
   "dependencies": {
     "@types/ffi": "^0.2.2",
     "ffi": "^2.3.0"
+  },
+  "devDependencies": {
+    "tsconfig-paths": "^3.8.0"
   }
 }

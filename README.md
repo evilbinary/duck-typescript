@@ -5,7 +5,6 @@ A library for building cross-platform native desktop applications with TypeScrip
 
 # 安装
 `apt-get install ts-node npm`
-
 `npm install`
 
 `npm install --save ffi`

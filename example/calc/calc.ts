@@ -1,4 +1,4 @@
-import { Gui } from './gui';
+import { Gui } from '@duck/gui';
 
 const gui = new Gui();
 gui.window(232, 340, 'calc');

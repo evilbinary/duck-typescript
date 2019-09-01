@@ -1,4 +1,4 @@
-import { Gui, SelectedButton, View, Image, Text, Bannar, Progress } from 'gui';
+import { Gui, SelectedButton, View, Image, Text, Bannar, Progress } from '@duck/gui';
 
 const gui = new Gui();
 gui.window(980, 660, '鸭子播放器');

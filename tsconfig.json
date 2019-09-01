@@ -1,16 +1,21 @@
 {
     "compilerOptions": {
         "target": "ES6",
-    //     "experimentalDecorators": true
-    "charset": "utf8",
-    "baseUrl": ".",
-    "rootDir": ".",
-    "paths": {
-        "@duck/*": ["./*"],
-        "@app/*": ["app/*"],
-        "*": [
-            "*",
-          ]
-      }
+        //     "experimentalDecorators": true
+        "charset": "utf8",
+        "baseUrl": ".",
+        "rootDir": ".",
+        "paths": {
+            "@duck/*": [
+                "src/*"
+            ],
+            "@duck": [
+                "src"
+            ],
+            "@app/*": [
+                "app/*"
+            ],
+            "*" : ["*"]
+        }
     }
 }
