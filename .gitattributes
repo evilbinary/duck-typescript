@@ -1,0 +1,2 @@
+*.ts linguist-language=typescript
+*.ss linguist-language=typescript
