@@ -1,3 +1,2 @@
-*.ts linguist-language=TypeScript
-*.ss linguist-language=TypeScript
-*.sls linguist-language=TypeScript
+* linguist-language=TypeScript
+
