@@ -151,6 +151,9 @@ export class Duck {
   is_flonum(exp) {
     return duck.scm_flonump(exp);
   }
+  is_nil(exp){
+    return duck.scm_nullp(exp);
+  }
   is_fixnum(exp) {
     return duck.scm_fixnump(exp);
   }

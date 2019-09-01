@@ -149,6 +149,8 @@ export class Gui extends Duck {
       return this.get_string(value);
     } else if (this.is_vector(value)) {
       return this.get_vector_array(value);
+    } else if (this.is_nil(value)) {
+      return 0;
     }
     return value;
   }
@@ -161,11 +163,7 @@ export class Gui extends Duck {
     return this.getVal(ret);
   }
   getAttrs(widget, name) {
-    const ret = this.call2(
-      'widget-get-attrs',
-      widget,
-      this.top_value(this.symbol(name))
-    );
+    const ret = this.call2('widget-get-attrs', widget, this.symbol(name));
     return this.getVal(ret);
   }
   getText(widget) {
@@ -264,8 +262,16 @@ export class Widget extends Gui {
   setLayout(layout) {
     super.setLayout(this.widget, layout);
   }
-  addChild(child) {
+  setClick(clickFn) {
+    super.setClick(this.widget, clickFn);
+  }
+  addChild(child, ...childs: any[]) {
     super.addChild(this.widget, child.widget);
+    if (childs && childs.length > 0) {
+      childs.forEach(e => {
+        super.addChild(this.widget, e.widget);
+      });
+    }
   }
   setAttr(attr, value) {
     super.setAttr(this.widget, attr, value);
@@ -324,8 +330,74 @@ export class Button extends Widget {
   }
 }
 
+export class Bannar extends Widget {
+  widget;
+  images = [];
+  current;
+  constructor(w: number, h: number, images) {
+    super();
+    this.widget = this.view(w, h);
+    images.forEach((e, i) => {
+      this.images[i] = this.loadImage(e);
+    });
+    this.current = images.length >= 2 ? 1 : 1;
+    this.addDraw((widget, parent) => {
+      const x = this.getAttr('%gx');
+      const y = this.getAttr('%gy');
+      const w = this.getAttr('%w');
+      const h = this.getAttr('%h');
+
+      this.drawImage(
+        x,
+        y+(h * 1) / 10,
+        (w * 4) / 6,
+        (h * 8) / 10,
+        this.images[this.current - 1]
+      );
+      this.drawImage(
+        x + (w * 4) / 6,
+        y+(h * 1) / 10,
+        (w * 4) / 6,
+        (h * 8) / 10,
+        this.images[this.current + 1]
+      );
+      this.drawImage(
+        x + (w * 1) / 6,
+        y,
+        (w * 4) / 6,
+        h,
+        this.images[this.current]
+      );
+    });
+  }
+}
+
 export class SelectedButton extends Widget {
   icons = [];
+  _isSelect = false;
+  color;
+  bg;
+  set isSelect(val) {
+    if (!this.color) {
+      this.color = this.getAttrs('color');
+    }
+    if (!this.bg) {
+      this.bg = this.getAttrs('background');
+    }
+    if (val) {
+      const color = this.getAttrs('hover-color');
+      const bg = this.getAttrs('selected-background');
+      this.setAttrs('color', color);
+      this.setAttrs('background', bg);
+    } else {
+      this.setAttrs('color', this.color);
+      this.setAttrs('background', this.bg);
+    }
+    this._isSelect = val;
+  }
+  get isSelect() {
+    return this._isSelect;
+  }
   constructor(
     w: number,
     h: number,
@@ -345,14 +417,22 @@ export class SelectedButton extends Widget {
       });
     }
     this.widget = this.button(w, h, title);
+
     this.addDraw((widget, parent) => {
       const x = this.getAttr('%gx');
       const y = this.getAttr('%gy');
-      if (this.isSetStatus('%status-hover') === 1) {
+      if (this.isSelect) {
         this.drawImage(iconLeft + x, y + iconTop, size, size, this.icons[1]);
       } else {
-        this.drawImage(iconLeft + x, y + iconTop, size, size, this.icons[0]);
+        if (this.isSetStatus('%status-hover') === 1) {
+          this.drawImage(iconLeft + x, y + iconTop, size, size, this.icons[1]);
+        } else {
+          this.drawImage(iconLeft + x, y + iconTop, size, size, this.icons[0]);
+        }
       }
     });
+  }
+  setSelect(val) {
+    this.isSelect = val;
   }
 }
