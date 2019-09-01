@@ -70,7 +70,7 @@ export class Gui extends Duck {
   }
   progress(width, height, percent) {
     return this.eval(
-      `(view ${width.toFixed(2)} ${height.toFixed(2)} ${percent.toFixed(2)} )`
+      `(progress ${width.toFixed(2)} ${height.toFixed(2)} ${percent.toFixed(2)} )`
     );
   }
   edit(width, height, title) {
@@ -327,6 +327,13 @@ export class Button extends Widget {
   constructor(w: number, h: number, title) {
     super();
     this.widget = this.button(w, h, title);
+  }
+}
+
+export class Progress extends Widget {
+  constructor(w: number, h: number, percent:number) {
+    super();
+    this.widget = this.progress(w, h, percent);
   }
 }
 
