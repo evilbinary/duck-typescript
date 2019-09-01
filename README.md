@@ -14,7 +14,7 @@ A library for building cross-platform native desktop applications with TypeScrip
 `npm run main`
 
 # demo
-计算器`ts-node -p calc.ts`
+计算器`ts-node -p example/calc/calc.ts`
 
 <img src="https://raw.githubusercontent.com/evilbinary/duck-typescript/master/screenshot/calc.png" width="220px" />
 
