@@ -1,5 +1,14 @@
-import { Gui, SelectedButton, View, Image, Text, Bannar, Progress } from '@duck/gui';
+import {
+  Gui,
+  SelectedButton,
+  View,
+  Image,
+  Text,
+  Bannar,
+  Progress
+} from '@duck/gui';
 
+const resPath = __dirname;
 const gui = new Gui();
 gui.window(980, 660, '鸭子播放器');
 
@@ -15,7 +24,7 @@ right.setAttrs('background', 0xffffffff);
 
 const avatar = new View(200, 160);
 avatar.setAttrs('background', 0xfff6f6f6);
-const img = new Image(60, 60, 'gaga.jpg');
+const img = new Image(60, 60, resPath+'/gaga.jpg');
 img.setMargin(70.0, 60.0, 40.0, 40.0);
 const nickname = new Text(gui.matchParent, 40.0, '嘎嘎');
 nickname.setAttrs('color', 0xff000000);
@@ -39,11 +48,26 @@ const cateButtons = [];
 const myButtons = [];
 
 const cateButtonsName = [
-  { title: '精选', icon: ['./home_recommend.png', 'home_recommend_hl.png'] },
-  { title: '排行', icon: ['./home_ranking.png', 'home_ranking_hl.png'] },
-  { title: '歌单', icon: ['./home_choiceness.png', 'home_choiceness_hl.png'] },
-  { title: '电台', icon: ['./home_radio.png', 'home_radio_hl.png'] },
-  { title: 'MV', icon: ['./home_mv.png', 'home_mv_hl.png'] }
+  {
+    title: '精选',
+    icon: [resPath + '/home_recommend.png', resPath + '/home_recommend_hl.png']
+  },
+  {
+    title: '排行',
+    icon: [resPath + '/home_ranking.png', resPath + '/home_ranking_hl.png']
+  },
+  {
+    title: '歌单',
+    icon: [
+      resPath + '/home_choiceness.png',
+      resPath + '/home_choiceness_hl.png'
+    ]
+  },
+  {
+    title: '电台',
+    icon: [resPath + '/home_radio.png', resPath + '/home_radio_hl.png']
+  },
+  { title: 'MV', icon: [resPath + '/home_mv.png', resPath + '/home_mv_hl.png'] }
 ];
 
 left.addChild(avatar);
@@ -86,18 +110,27 @@ myName.setMargin(0, 0, 10, 10);
 left.addChild(myName);
 
 const myButtonsName = [
-  { title: '我喜欢', icon: ['./home_love.png', 'home_love_hl.png'] },
+  {
+    title: '我喜欢',
+    icon: [resPath + '/home_love.png', resPath + '/home_love_hl.png']
+  },
   {
     title: '本地歌曲',
-    icon: ['./localsong_Normal.png', 'localsong_Selected.png']
+    icon: [
+      resPath + '/localsong_Normal.png',
+      resPath + '/localsong_Selected.png'
+    ]
   },
   {
     title: '下载歌曲',
-    icon: ['./home_download.png', 'home_download_hl.png']
+    icon: [resPath + '/home_download.png', resPath + '/home_download_hl.png']
   },
   {
     title: '播放历史',
-    icon: ['./home_recentPlay.png', 'home_recentPlay_hl.png']
+    icon: [
+      resPath + '/home_recentPlay.png',
+      resPath + '/home_recentPlay_hl.png'
+    ]
   }
 ];
 
@@ -125,9 +158,9 @@ myButtonsName.forEach(e => {
   myButtons.push(button);
 });
 // bottom
-const prev = new Image(25, 25, 'playPreview.png');
-const play = new Image(30, 30, 'play.png');
-const next = new Image(25, 25, 'playNext.png');
+const prev = new Image(25, 25, resPath + '/playPreview.png');
+const play = new Image(30, 30, resPath + '/play.png');
+const next = new Image(25, 25, resPath + '/playNext.png');
 
 prev.setMargin(20, 0, 20, 20);
 play.setMargin(10, 10, 16, 10);
@@ -141,7 +174,7 @@ bottom.addChild(bottomLeft);
 const bottomRight = new View(gui.fillRest, gui.matchParent);
 bottomRight.setAttrs('background', 0xffeaeaea);
 bottom.addChild(bottomRight);
-const musicCover = new Image(40, 40, 'cover4.png');
+const musicCover = new Image(40, 40, resPath + '/cover4.png');
 musicCover.setMargin(20, 20, 10, 10);
 
 const musicTitle = new Text(gui.matchParent, 20, 'Never Mean To Be');
@@ -161,9 +194,9 @@ musicInfo.setAttrs('background', 0xffeaeaea);
 // recommend
 const recommend = new View(gui.matchParent, 220);
 const banner = new Bannar(gui.matchParent, gui.matchParent, [
-  'bannar1.png',
-  'bannar2.png',
-  'bannar3.png'
+  resPath + '/bannar1.png',
+  resPath + '/bannar2.png',
+  resPath + '/bannar3.png'
 ]);
 banner.setAttrs('background', 0xffffffff);
 recommend.addChild(banner);
@@ -199,15 +232,15 @@ const createItem = (cover, title, name) => {
   return firstItem;
 };
 
-first.addChild(createItem('./cover1.png', '远山剑鸣', '叶炫清'));
-first.addChild(createItem('./cover2.png', '星舞者', '罗志祥'));
-first.addChild(createItem('./cover3.png', '千年等一回', '鞠婧祎'));
-first.addChild(createItem('./cover1.png', '远山剑鸣', '叶炫清'));
-first.addChild(createItem('./cover2.png', '星舞者', '罗志祥'));
-first.addChild(createItem('./cover3.png', '千年等一回', '鞠婧祎'));
-first.addChild(createItem('./cover1.png', '远山剑鸣', '叶炫清'));
-first.addChild(createItem('./cover2.png', '星舞者', '罗志祥'));
-first.addChild(createItem('./cover3.png', '千年等一回', '鞠婧祎'));
+first.addChild(createItem(resPath + '/cover1.png', '远山剑鸣', '叶炫清'));
+first.addChild(createItem(resPath + '/cover2.png', '星舞者', '罗志祥'));
+first.addChild(createItem(resPath + '/cover3.png', '千年等一回', '鞠婧祎'));
+first.addChild(createItem(resPath + '/cover1.png', '远山剑鸣', '叶炫清'));
+first.addChild(createItem(resPath + '/cover2.png', '星舞者', '罗志祥'));
+first.addChild(createItem(resPath + '/cover3.png', '千年等一回', '鞠婧祎'));
+first.addChild(createItem(resPath + '/cover1.png', '远山剑鸣', '叶炫清'));
+first.addChild(createItem(resPath + '/cover2.png', '星舞者', '罗志祥'));
+first.addChild(createItem(resPath + '/cover3.png', '千年等一回', '鞠婧祎'));
 
 right.addChild(first);
 

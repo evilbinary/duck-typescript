@@ -1,5 +1,6 @@
 /**
- * cc src/duck.c  -o duck.dylib -shared -I. -L. -lscm
+ * osx cc src/duck.c  -o duck.dylib -fPIC -shared -I. -L. -lscm
+ * linux cc src/duck.c  -o duck.so -fPIC -shared -I. -L. -lscm
  * */
 #include "scm.h"
 const char* libexts = (char*)0;
