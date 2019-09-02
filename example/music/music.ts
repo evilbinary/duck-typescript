@@ -24,7 +24,7 @@ right.setAttrs('background', 0xffffffff);
 
 const avatar = new View(200, 160);
 avatar.setAttrs('background', 0xfff6f6f6);
-const img = new Image(60, 60, resPath+'/gaga.jpg');
+const img = new Image(60, 60, resPath + '/gaga.jpg');
 img.setMargin(70.0, 60.0, 40.0, 40.0);
 const nickname = new Text(gui.matchParent, 40.0, '嘎嘎');
 nickname.setAttrs('color', 0xff000000);
